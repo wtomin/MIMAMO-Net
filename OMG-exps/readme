@@ -1,1 +1,19 @@
 
+'train_dict.pkl' is a dictionary create from 'omg_TrainVideos.csv'. The structure is:
+--video_name_1
+  --utterance_1.mp4
+    --arousal: 0.
+    --valence: 0.
+  --utterance_2.mp4
+    --arousal: 0.
+    --valence: 0.
+  ...
+--video_name_2
+  ...
+So are 'val_dict.pkl' and 'test_dict.pkl'
+
+example:
+```
+python main.py --label_name arousal 
+```
+  
