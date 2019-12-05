@@ -12,7 +12,7 @@ Requirements:
 5. [OpenFace](https://github.com/TadasBaltrusaitis/OpenFace)
 
 
-In this paper, we propose to combine the micro- and macro-motion features to improve video emotion recognition, using a two-stream recurrrent network named MIMA (Micro-Macro) Net. This model structure is shown in the picture:
+In this paper, we propose to combine the micro- and macro-motion features to improve video emotion recognition, using a two-stream recurrrent network named MIMAMO (Micro-Macro-Motion) Net. This model structure is shown in the picture:
 ![alt text](https://github.com/wtomin/MIMA-Net/blob/master/model.png)
 
 To run this project, 
