@@ -1,7 +1,7 @@
 # MIMAMO-Net
 MIMAMO Net: Integrating Micro- and Macro-motion for Video Emotion Recognition
 
-Paper Link:
+Paper Link: https://arxiv.org/pdf/1911.09784.pdf
 
 Requirements:
 
