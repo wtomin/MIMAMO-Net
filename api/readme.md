@@ -34,7 +34,8 @@ pip install pandas
 sudo apt-get install ffmpeg 
 ```
 - OpenFace
-To install OpenFace,
+
+To install OpenFace in the root directory of this project:
 ```
 git clone https://github.com/TadasBaltrusaitis/OpenFace.git
 cd OpenFace
