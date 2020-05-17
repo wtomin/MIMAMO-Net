@@ -1,13 +1,15 @@
 import os
 import sys
-os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
-os.environ['CUDA_VISIBLE_DEVICES'] = str(0)
+#os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
+#os.environ['CUDA_VISIBLE_DEVICES'] = str(0)
 from sampler.image_sampler import Image_Sampler
 import torch
 from torch.nn import functional as F
 from tqdm import tqdm
 from utils.model_utils import load_model, compose_transforms
 import numpy as np
+from steerable.utils import get_device
+device = get_device()
 class Resnet50_Extractor(object):
     def __init__(self, benchmark_dir = 'pytorch-benchmarks',model_name= 'resnet50_ferplus_dag',
                  feature_layer = 'pool5_7x7_s1'):
@@ -32,12 +34,7 @@ class Resnet50_Extractor(object):
         # load resnet50 model
         model_dir = os.path.abspath(os.path.join(self.benchmark_dir, 'ferplus'))
         self.model = load_model(self.model_name, model_dir)
-        try:
-            device = torch.device("cuda")
-            self.model = self.model.to(device)
-        except:
-            torch.cuda.set_device(0)
-            self.model = self.model.cuda()
+        self.model = self.model.to(device)
         self.model.eval()
         # load transformation function
         meta = self.model.meta
@@ -67,7 +64,7 @@ class Resnet50_Extractor(object):
         	return
         with torch.no_grad():
             for ims, target, img_path, video_name in tqdm(data_loader):
-                ims = ims.cuda(async=True)
+                ims = ims.to(device)
                 output = self.get_vec(ims)
                 for feature, path, video_n in zip(output, img_path, video_name):
                     des_path = os.path.join(output_dir, "%05d.npy"%self.get_frame_index(path))

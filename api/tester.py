@@ -9,6 +9,8 @@ import torch
 import tqdm
 import numpy as np
 import pandas as pd
+from steerable.utils import get_device
+device = get_device()
 class Tester(object):
     def __init__(self,
              # parameters for testing
@@ -46,7 +48,7 @@ class Tester(object):
         self.model.load_state_dict(checkpoint['state_dict'])
         start_epoch = checkpoint['epoch']
         print("load checkpoint from {}, epoch:{}".format(model_path, start_epoch))
-        self.model.cuda()
+        self.model.to(device)
         self.label_name = ['valence', 'arousal'] # the pretrained model output format
     def test(self, input_video):
         video_name = os.path.basename(input_video).split('.')[0]
@@ -79,11 +81,11 @@ class Tester(object):
         for i, data_batch in enumerate(dataloader):
             phase_f, rgb_f, label, ranges, names = data_batch
             with torch.no_grad():
-                phase_f = phase_f.type('torch.FloatTensor').cuda()
+                phase_f = phase_f.type('torch.FloatTensor').to(device)
                 phase_0, phase_1 = self.phase_diff_output(phase_f, self.phase_difference_extractor)
-                rgb_f = Variable(rgb_f.type('torch.FloatTensor').cuda())
-                phase_0 = Variable(phase_0.type('torch.FloatTensor').cuda())
-                phase_1 = Variable(phase_1.type('torch.FloatTensor').cuda())
+                rgb_f = Variable(rgb_f.type('torch.FloatTensor').to(device))
+                phase_0 = Variable(phase_0.type('torch.FloatTensor').to(device))
+                phase_1 = Variable(phase_1.type('torch.FloatTensor').to(device))
             
             output = model([phase_0,phase_1], rgb_f)
             sample_names.append(names)
