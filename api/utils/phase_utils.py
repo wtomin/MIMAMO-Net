@@ -83,7 +83,7 @@ def amplitude_based_gaussian_blur(mag, phase, g_kernel):
     m, n = g_kernel.size()
     filters = torch.stack([g_kernel]*out_channel, dim=0)
     filters = torch.unsqueeze(filters, 1) # (output_channel, input_channel/groups, W, H)
-    filters = filters.type('torch.FloatTensor').cuda(async=True) if phase.is_cuda else filters
+    filters = filters.type(phase.type())
     mag_phase_blurred = F.conv2d(mag_phase, filters, groups = in_channel, padding=m//2)
     mag_blurred = F.conv2d(mag, filters, groups = in_channel, padding=m//2)
     result = torch.div(mag_phase_blurred, mag_blurred)
