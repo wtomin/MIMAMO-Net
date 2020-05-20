@@ -44,7 +44,7 @@ class Tester(object):
                                           extract_level, not quiet)
         self.model = Two_Stream_RNN()
         assert os.path.exists(model_path)
-        checkpoint = torch.load(model_path)
+        checkpoint = torch.load(model_path, map_location=device)
         self.model.load_state_dict(checkpoint['state_dict'])
         start_epoch = checkpoint['epoch']
         print("load checkpoint from {}, epoch:{}".format(model_path, start_epoch))
