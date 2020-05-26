@@ -60,8 +60,10 @@ class Resnet50_Extractor(object):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
         else:
-        	print("output_dir {} already exists, feature extraction skipped.".format(output_dir))
-        	return
+            if (len(os.listdir(output_dir)) != 0):
+                if ('.npy' in os.listdir(output_dir)[0]):
+                    print("output_dir {} already exists, feature extraction skipped.".format(output_dir))
+                    return
         with torch.no_grad():
             for ims, target, img_path, video_name in tqdm(data_loader):
                 ims = ims.to(device)
