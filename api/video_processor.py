@@ -40,7 +40,7 @@ class Video_Processor(object):
         '''        
         Arguments:
             input_video: String
-               The input video path.
+               The input video path, or the input sequence directory, where each image representing a frame, e.g. 001.jpg, 002.jpg, 003.jpg ... 200.jpg
             output_dir: String, default None
                The output faces will be saved in output_dir. By default the output_dir will be in 
                the same parent directory as the input video is.
@@ -48,6 +48,12 @@ class Video_Processor(object):
 
         if not isinstance(input_video, str) or not os.path.exists(input_video):
             raise ValueError("input video has to be string object and needs to exist.")
+        if os.path.isdir(input_video):
+            assert len(os.listdir(input_video))>0, "Input sequence directory {} cannot be empty".format(input_video)
+            arg_input = '-fdir'
+        else:
+            arg_input = '-f'
+
         input_video = os.path.abspath(input_video)
         if output_dir is None:
             output_dir = os.path.join(os.path.dirname(input_video), 
@@ -60,7 +66,7 @@ class Video_Processor(object):
             	return
         else:
             raise ValueError("output_dir should be string object.")
-        opface_option = " -f "+input_video + " -out_dir "+ output_dir +" -simsize "+ str(self.size)
+        opface_option = " {} ".format(arg_input)+input_video + " -out_dir "+ output_dir +" -simsize "+ str(self.size)
         opface_option += " -2Dfp -3Dfp -pdmparams -pose -aus -gaze -simalign "
 
         if not self.noface_save:
