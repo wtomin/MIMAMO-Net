@@ -54,7 +54,7 @@ class Tester(object):
         video_name = os.path.basename(input_video).split('.')[0]
         # first input video is processed using OpenFace
         opface_output_dir = os.path.join(os.path.dirname(input_video), 
-                video_name)
+                video_name+"_opface")
         self.video_processor.process(input_video, opface_output_dir)
         # then the cropped and aligned faces are fed to resnet50_extractor
         feature_dir = os.path.join(os.path.dirname(input_video), 
