@@ -39,7 +39,7 @@ class Resnet50_Extractor(object):
         # load transformation function
         meta = self.model.meta
         self.transform = compose_transforms(meta, center_crop=True)
-    def run(self, input_dir, output_dir, batch_size=64):
+    def run(self, input_dir, output_dir, batch_size=64, video_name=''):
         '''        
         input_dir: string, 
             The input_dir should have one subdir containing all cropped and aligned face images for 
@@ -49,8 +49,7 @@ class Resnet50_Extractor(object):
         '''
         assert os.path.exists(input_dir), 'input dir must exsit!'
         assert len(os.listdir(input_dir)) != 0, 'input dir must not be empty!'
-        
-        video_name = os.path.basename(input_dir)
+        assert len(video_name)!=0, 'input video name cannot be empty!'
         dataset = Image_Sampler(video_name, input_dir, test_mode = True, transform=self.transform)
         data_loader = torch.utils.data.DataLoader(
             dataset, 
