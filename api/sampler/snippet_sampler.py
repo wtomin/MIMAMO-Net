@@ -109,7 +109,10 @@ class Snippet_Sampler(data.Dataset):
         self.video_record = VideoRecord(self.video_name, self.feature_path, 
             self.annot_dir, self.label_name, self.test_mode)
         frames, labels = self.video_record.path_label
-        assert len(frames) >= self.length, "The length exceeds the number of exsisting frames"
+        if len(frames) < self.length: 
+            print("The length exceeds the number of exsisting frames, the sampling length has been changed to {}".format(len(frames)))
+            self.length = len(frames)
+            self.stride = len(frames)
         self.seq_ranges = list()
         start, end = 0, self.length
         while end <= len(frames) and (start<len(frames)):
