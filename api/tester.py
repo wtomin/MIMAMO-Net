@@ -59,7 +59,7 @@ class Tester(object):
         # then the cropped and aligned faces are fed to resnet50_extractor
         feature_dir = os.path.join(os.path.dirname(input_video), 
                 video_name+"_pool5")
-        self.resnet50_extractor.run(opface_output_dir, feature_dir)
+        self.resnet50_extractor.run(opface_output_dir, feature_dir, video_name = video_name)
         
         # sampling images
         dataset = Snippet_Sampler(video_name, opface_output_dir, feature_dir,
