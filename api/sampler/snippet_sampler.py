@@ -119,7 +119,7 @@ class Snippet_Sampler(data.Dataset):
             self.seq_ranges.append([start, end]) 
             start +=self.stride
             end = start+self.length
-        assert len(self.seq_ranges)!=, "No snippet is sampled."
+        assert len(self.seq_ranges)!=0, "No snippet is sampled."
         if self.seq_ranges[-1][1] < len(frames):
             start = len(frames) - self.length
             end = len(frames)
