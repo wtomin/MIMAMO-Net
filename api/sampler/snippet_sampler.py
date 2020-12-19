@@ -109,13 +109,14 @@ class Snippet_Sampler(data.Dataset):
         self.video_record = VideoRecord(self.video_name, self.feature_path, 
             self.annot_dir, self.label_name, self.test_mode)
         frames, labels = self.video_record.path_label
+        assert len(frames) >= self.length, "The length exceeds the number of exsisting frames"
         self.seq_ranges = list()
         start, end = 0, self.length
-        while end < len(frames) and (start<len(frames)):
+        while end <= len(frames) and (start<len(frames)):
             self.seq_ranges.append([start, end]) 
             start +=self.stride
             end = start+self.length
-
+        assert len(self.seq_ranges)!=, "No snippet is sampled."
         if self.seq_ranges[-1][1] < len(frames):
             start = len(frames) - self.length
             end = len(frames)
